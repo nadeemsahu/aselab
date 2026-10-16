@@ -9,10 +9,28 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 
-# Standard Member Policy (Updated on develop)
-DEFAULT_LOAN_DAYS: int = 21  # Extended to 3 weeks for regular reading
-DEFAULT_DAILY_FINE: float = 0.50  # Reduced daily fine rate
-MAX_BORROW_LIMIT: int = 5  # Increased borrowing quota
+# Resolved Loan Policies: Unified Tiered Lending Configuration
+# Harmonizes standard member policy (develop) and express reserve policy (feature/express-loan)
+LOAN_POLICIES = {
+    "standard": {
+        "loan_days": 21,
+        "daily_fine": 0.50,
+        "max_borrow_limit": 5,
+        "description": "Standard 3-week loan for general collection",
+    },
+    "express": {
+        "loan_days": 7,
+        "daily_fine": 2.50,
+        "max_borrow_limit": 2,
+        "description": "Express 1-week loan for high-demand reserve items",
+    },
+}
+
+# Default system constants for backwards compatibility
+DEFAULT_LOAN_DAYS: int = LOAN_POLICIES["standard"]["loan_days"]
+DEFAULT_DAILY_FINE: float = LOAN_POLICIES["standard"]["daily_fine"]
+MAX_BORROW_LIMIT: int = LOAN_POLICIES["standard"]["max_borrow_limit"]
+
 
 
 @dataclass

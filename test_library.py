@@ -42,16 +42,16 @@ class TestLibraryManagement(unittest.TestCase):
         self.assertIn("B01", member.borrowed_books)
 
     def test_borrow_limit_exceeded(self):
-        self.lib.add_book("B02", "Book Two", "Author", "Genre", 5)
-        self.lib.add_book("B03", "Book Three", "Author", "Genre", 5)
-        self.lib.add_book("B04", "Book Four", "Author", "Genre", 5)
+        # Fill up to borrow limit
+        for i in range(MAX_BORROW_LIMIT):
+            bid = f"BLIM_{i}"
+            self.lib.add_book(bid, f"Book {i}", "Author", "Genre", 5)
+            self.lib.borrow_book("M01", bid)
 
-        self.lib.borrow_book("M01", "B01")
-        self.lib.borrow_book("M01", "B02")
-        self.lib.borrow_book("M01", "B03")
-
+        # Attempt to exceed limit
+        self.lib.add_book("BLIM_EXC", "Over Limit Book", "Author", "Genre", 5)
         with self.assertRaises(ValueError) as ctx:
-            self.lib.borrow_book("M01", "B04")
+            self.lib.borrow_book("M01", "BLIM_EXC")
         self.assertIn("borrow limit", str(ctx.exception))
 
     def test_borrow_out_of_stock(self):
