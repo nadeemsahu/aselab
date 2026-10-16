@@ -164,6 +164,28 @@ class Library:
         member.borrowed_books.remove(book_id)
         return fine
 
+    def search_books(self, query: str, field: str = "title") -> List[Book]:
+        """
+        Search books by 'title', 'author', or 'genre'.
+        Case-insensitive substring matching.
+        """
+        q = query.strip().lower()
+        results: List[Book] = []
+        for book in self.books.values():
+            target_val = ""
+            if field == "title":
+                target_val = book.title.lower()
+            elif field == "author":
+                target_val = book.author.lower()
+            elif field == "genre":
+                target_val = book.genre.lower()
+            else:
+                target_val = f"{book.title} {book.author} {book.genre}".lower()
+
+            if q in target_val:
+                results.append(book)
+        return results
+
     def list_inventory(self) -> List[dict]:
         return [b.to_dict() for b in self.books.values()]
 
