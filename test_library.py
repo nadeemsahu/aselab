@@ -85,6 +85,24 @@ class TestLibraryManagement(unittest.TestCase):
         self.assertEqual(len(inv), 1)
         self.assertEqual(inv[0]["book_id"], "B01")
 
+    def test_search_books_by_title_and_author(self):
+        self.lib.add_book("B02", "Clean Architecture", "Robert C. Martin", "Architecture", 1)
+        # By title
+        title_matches = self.lib.search_books("Architecture", field="title")
+        self.assertEqual(len(title_matches), 1)
+        self.assertEqual(title_matches[0].book_id, "B02")
+
+        # By author
+        author_matches = self.lib.search_books("Martin", field="author")
+        # Matches Fowler (Martin Fowler) and Martin (Robert C. Martin)
+        self.assertEqual(len(author_matches), 2)
+
+        # By genre
+        genre_matches = self.lib.search_books("Tech", field="genre")
+        self.assertEqual(len(genre_matches), 1)
+        self.assertEqual(genre_matches[0].book_id, "B01")
+
 
 if __name__ == "__main__":
     unittest.main()
+
