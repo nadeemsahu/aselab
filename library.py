@@ -9,10 +9,10 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 
-# Baseline System Policies (Configured on main)
-DEFAULT_LOAN_DAYS: int = 14
-DEFAULT_DAILY_FINE: float = 1.00
-MAX_BORROW_LIMIT: int = 3
+# Express Short-Term Lending Policy (Configured on feature/express-loan)
+DEFAULT_LOAN_DAYS: int = 7  # High-demand fast circulation (1 week)
+DEFAULT_DAILY_FINE: float = 2.50  # Strict daily fine rate
+MAX_BORROW_LIMIT: int = 2  # Strict quota to prevent hoarding
 
 
 @dataclass
